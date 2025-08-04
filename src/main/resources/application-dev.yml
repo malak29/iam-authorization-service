@@ -1,0 +1,45 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/iam_db
+    username: iam_malak
+    password: Malak123
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ""
+
+# JWT Configuration for Development
+jwt:
+  secret: dev-super-secret-jwt-key-for-development-environment-only
+  expiration-ms: 86400000  # 24 hours
+
+# Authorization Configuration for Development
+authorization:
+  cache:
+    permission-ttl-minutes: 5  # Shorter for development
+    role-ttl-minutes: 10
+  cleanup:
+    expired-roles-interval-hours: 1  # More frequent cleanup
+
+# Logging Configuration
+logging:
+  level:
+    com.iam.authorization: DEBUG
+    io.r2dbc.postgresql.QUERY: DEBUG
+    org.springframework.data.redis: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/iam-authorization-service-dev.log
+
+# Management endpoints for development
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

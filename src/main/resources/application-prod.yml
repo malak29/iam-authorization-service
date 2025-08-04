@@ -1,0 +1,51 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      ssl: true
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 10
+          min-idle: 2
+
+# JWT Configuration for Production
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}  # 1 hour in production
+
+# Authorization Configuration for Production
+authorization:
+  cache:
+    permission-ttl-minutes: ${PERMISSION_CACHE_TTL:15}
+    role-ttl-minutes: ${ROLE_CACHE_TTL:30}
+  cleanup:
+    expired-roles-interval-hours: ${CLEANUP_INTERVAL:24}
+
+# Logging Configuration for Production
+logging:
+  level:
+    com.iam.authorization: INFO
+    org.springframework.security: WARN
+  file:
+    name: /var/log/iam-authorization-service/application.log
+    max-size: 100MB
+    max-history: 30
+
+# Management endpoints for production (restricted)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
