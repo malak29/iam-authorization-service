@@ -1,0 +1,37 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: iam-authorization-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+# JWT configuration
+jwt:
+  secret: ${JWT_SECRET:dev-secret-key}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}  # 24 hours
+
+# Authorization configuration
+authorization:
+  cache:
+    permission-ttl-minutes: ${PERMISSION_CACHE_TTL:15}
+    role-ttl-minutes: ${ROLE_CACHE_TTL:30}
+  cleanup:
+    expired-roles-interval-hours: ${CLEANUP_INTERVAL:24}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+logging:
+  level:
+    com.iam.authorization: INFO
+    org.springframework.security: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

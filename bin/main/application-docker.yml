@@ -1,0 +1,23 @@
+spring:
+  r2dbc:
+    url: ${SPRING_R2DBC_URL:r2dbc:postgresql://postgres:5432/iam_db}
+    username: ${SPRING_R2DBC_USERNAME:iam_malak}
+    password: ${SPRING_R2DBC_PASSWORD:Malak123}
+
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:redis}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      password: ${SPRING_DATA_REDIS_PASSWORD:}
+
+jwt:
+  secret: ${JWT_SECRET:docker-jwt-secret-key}
+
+authorization:
+  cache:
+    permission-ttl-minutes: 15
+    role-ttl-minutes: 30
+
+logging:
+  level:
+    com.iam.authorization: INFO
